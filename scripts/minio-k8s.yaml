@@ -1,0 +1,103 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: minio
+  name: minio
+spec:
+  selector:
+    matchLabels:
+      app: minio
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        app: minio
+    spec:
+      containers:
+      - args:
+        - server
+        - /data
+        env:
+        - name: MINIO_ACCESS_KEY
+          valueFrom:
+            secretKeyRef:
+              key: filestore-access
+              name: minio-secret
+        - name: MINIO_SECRET_KEY
+          valueFrom:
+            secretKeyRef:
+              key: filestore-secret
+              name: minio-secret
+        - name: MINIO_PROMETHEUS_AUTH_TYPE
+          value: public
+        image: minio/minio:RELEASE.2021-06-07T21-40-51Z
+        livenessProbe:
+          httpGet:
+            path: /minio/health/live
+            port: 9000
+          initialDelaySeconds: 5
+          periodSeconds: 20
+        name: minio
+        ports:
+        - containerPort: 9000
+        readinessProbe:
+          httpGet:
+            path: /minio/health/ready
+            port: 9000
+          initialDelaySeconds: 5
+          periodSeconds: 20
+        resources:
+          limits:
+            memory: 1000Mi
+          requests:
+            cpu: 100m
+            memory: 500Mi
+        volumeMounts:
+        - mountPath: /data
+          name: minio-dir
+      volumes:
+      - name: minio-dir
+        persistentVolumeClaim:
+          claimName: minio-pvc-0
+---
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: minio
+  name: minio
+spec:
+  ports:
+  - name: minio-port
+    port: 9000
+    protocol: TCP
+    targetPort: 9000
+  selector:
+    app: minio
+---
+apiVersion: v1
+kind: Secret
+metadata:
+  labels:
+  name: minio-secret
+stringData:
+  filestore: minio:9000
+  filestore-access: andrei-access
+  filestore-secret: andrei-secret
+type: Opaque
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  labels:
+    app: minio
+  name: minio-pvc-0
+spec:
+  accessModes:
+  - ReadWriteOnce
+  resources:
+    requests:
+      storage: 20Gi
