@@ -1,0 +1,43 @@
+---
+- hosts: localhost
+  vars:
+    kubeconfig: ./required-files/kind-cluster.yaml
+  tasks:
+    - name: kubeconfig
+      shell: "export KUBECONFIG={{kubeconfig}}"
+      args:
+        executable: /bin/bash
+    - name: node label
+      k8s:
+        definition:
+          apiversion: v1
+          kind: Node
+          metadata:
+            name: kind-worker
+            labels: 
+              openwhisk-role: core
+    - name: node label2
+      k8s:
+        definition:
+          apiversion: v1
+          kind: Node
+          metadata:
+            name: kind-worker2
+            labels: 
+              openwhisk-role: invoker
+    - name: get apiHostName 
+      shell: "kubectl describe node kind-worker | grep InternalIP: | awk '{print $2}'"
+      register: apiHostName
+    - name: setup mycluster.yaml
+      lineinfile:
+        dest: "required-files/mycluster.yaml"
+        regex: "^apiHostName :"
+        line: "apiHostName : {{ apiHostName}},"
+        state: present
+      lineinfile:
+        dest: "required-files/mycluster.yaml"
+        regex: "^apiHostPort :"
+        line: "apiHostPort : 31001,"
+        state: present
+        
+        

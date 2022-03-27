@@ -1,0 +1,26 @@
+---
+- hosts: localhost
+  tasks:
+    - name: add openwhisk repo
+      kubernetes.core.helm_repository:
+        name: openwhisk
+        repo_url: "https://openwhisk.apache.org/charts"
+    - name: deploy openwhisk
+      kubernetes.core.helm:
+          name: owdev
+          chart_ref: openwhisk/openwhisk
+          release_namespace: openwhisk
+          create_namespace: true
+          values_files: 
+            - required-files/mycluster.yaml
+    - name: wait owdev-install-packages
+      shell: "sleep 15m"
+    - name: wsk credentials
+      shell: "wsk property set --apihost $(kubectl describe node kind-worker | grep InternalIP: | awk '{print $2}'):31001"
+      args:
+        executable: /bin/bash
+      shell: "wsk property set --auth 23bc46b1-71f6-4ed5-8c54-816aa4f8c502:123zO3xZCLrMN6v2BKK1dXYFpXlPkccOFqm12CdAsMgRU4VrNZ9lyGVCGuMDGIwP"
+    - name: Deploy action
+      shell: "wskdeploy -m ../manifest.yaml"
+      args:
+        executable: /bin/bash
