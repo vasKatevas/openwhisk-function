@@ -1,7 +1,5 @@
 ---
 - hosts: localhost
-  vars:
-    kubeconfig: ./required-files/vagrant-cluster.yaml
   tasks:
     - name: node label
       k8s:

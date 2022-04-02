@@ -1,14 +1,9 @@
 ---
 - hosts: localhost
-  vars:
-    kubeconfig: ./required-files/kind-cluster.yaml
   tasks:
-    - name: kubeconfig
-      shell: "export KUBECONFIG={{kubeconfig}}"
-      args:
-        executable: /bin/bash
     - name: node label
       k8s:
+        kubeconfig: './required-files/kind-cluster.yaml'
         definition:
           apiversion: v1
           kind: Node
@@ -18,6 +13,7 @@
               openwhisk-role: core
     - name: node label2
       k8s:
+        kubeconfig: './required-files/kind-cluster.yaml'
         definition:
           apiversion: v1
           kind: Node
