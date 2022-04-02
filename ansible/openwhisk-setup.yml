@@ -7,6 +7,7 @@
         repo_url: "https://openwhisk.apache.org/charts"
     - name: deploy openwhisk
       kubernetes.core.helm:
+          kubeconfig: './required-files/kind-config.yaml'
           name: owdev
           chart_ref: openwhisk/openwhisk
           release_namespace: openwhisk
