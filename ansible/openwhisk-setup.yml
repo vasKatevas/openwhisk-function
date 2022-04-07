@@ -7,13 +7,12 @@
         repo_url: "https://openwhisk.apache.org/charts"
     - name: deploy openwhisk
       kubernetes.core.helm:
-          kubeconfig: './required-files/kind-config.yaml'
-          name: owdev
-          chart_ref: openwhisk/openwhisk
-          release_namespace: openwhisk
-          create_namespace: true
-          values_files: 
-            - required-files/mycluster.yaml
+        name: owdev
+        chart_ref: openwhisk/openwhisk
+        release_namespace: openwhisk
+        create_namespace: true
+        values_files: 
+          - required-files/mycluster.yaml
     - name: wait owdev-install-packages
       shell: "sleep 15m"
     - name: wsk credentials

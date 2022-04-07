@@ -3,6 +3,7 @@
   tasks:
     - name: node label
       k8s:
+        kubeconfig: '~/.kube/kind-config'
         definition:
           apiversion: v1
           kind: Node
@@ -12,6 +13,7 @@
               openwhisk-role: core
     - name: node label2
       k8s:
+        kubeconfig: '~/.kube/kind-config'
         definition:
           apiversion: v1
           kind: Node

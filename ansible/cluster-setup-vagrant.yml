@@ -3,7 +3,7 @@
   tasks:
     - name: node label
       k8s:
-        kubeconfig: './required-files/vagrant-cluster.yaml'
+        kubeconfig: '~/.kube/vagrant-config'
         definition:
           apiversion: v1
           kind: Node
@@ -13,7 +13,7 @@
               openwhisk-role: core
     - name: node label2
       k8s:
-        kubeconfig: './required-files/vagrant-cluster.yaml'
+        kubeconfig: '~/.kube/vagrant-config'
         definition:
           kubeconfig: './required-files/vagrant-cluster.yaml'
           apiversion: v1

@@ -5,3 +5,5 @@
       shell: "kind create cluster --config required-files/kind-cluster.yaml"
       args:
         executable: /bin/bash
+    - name: kubeconfig update
+      shell: "kubectl config view --flatten > required-files/kind-config.yamls"
