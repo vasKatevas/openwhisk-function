@@ -7,7 +7,7 @@
         repo_url: "https://openwhisk.apache.org/charts"
     - name: deploy openwhisk
       kubernetes.core.helm:
-        kubeconfig: './required-files/vagrant-cluster.yaml'
+        kubeconfig: '~/.kube/vagrant-config'
         name: owdev
         chart_ref: openwhisk/openwhisk
         release_namespace: openwhisk
@@ -17,7 +17,7 @@
     - name: wait owdev-install-packages
       shell: "sleep 15m"
     - name: wsk credentials
-      shell: "export KUBECONFIG=./required-files/vagrant-cluster.yaml"
+      shell: "export KUBECONFIG=~/.kube/vagrant-config"
       shell: "wsk property set --apihost $(kubectl describe node master | grep InternalIP: | awk '{print $2}'):31001"
       args:
         executable: /bin/bash

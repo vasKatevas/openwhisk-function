@@ -21,7 +21,8 @@ RUN curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/s
 RUN install -o root -g root -m 0755 kubectl /usr/local/bin/kubectl
 
 USER jenkins
+VOLUME /var/jenkins_home
 
 # Copy kind-config ( every time kind runs it makes a new one ) 
-#COPY ./ansible/required-files/kind-config.yaml /.kube/kind-config
-#COPY ./ansible/required-files/vagrant-config.yaml /.kube/vagrant-config
+#COPY ./ansible/required-files/kind-config.yaml var/jenkins_home/.kube/kind-config
+#COPY ./ansible/required-files/vagrant-config.yaml var/jenkins_home/.kube/vagrant-config

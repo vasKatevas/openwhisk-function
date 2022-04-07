@@ -15,7 +15,6 @@
       k8s:
         kubeconfig: '~/.kube/vagrant-config'
         definition:
-          kubeconfig: './required-files/vagrant-cluster.yaml'
           apiversion: v1
           kind: Node
           metadata:
@@ -23,6 +22,7 @@
             labels: 
               openwhisk-role: invoker
     - name: get apiHostName 
+      shell: "export KUBECONFIG=~/.kube/vagrant-config"
       shell: "kubectl describe node master | grep InternalIP: | awk '{print $2}'"
       register: apiHostName
     - name: setup mycluster.yaml
