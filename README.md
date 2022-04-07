@@ -6,8 +6,8 @@ vagrant setup from https://github.com/Frewx/vagrant-kubernetes-cluster
 * uncomment the correct kubeconfig file inside jenkins.Dockerfile
 
 
-    docker build -t vaskatevas/jenkins -f jenkins.Dockerfile .
-    docker run  -p 8080:8080 -p 50000:50000 -v jenkins_home:/var/jenkins_home  vaskatevas/jenkins
+    docker build -t vaskatevas/jenkins -f jenkins.Dockerfile . 
+    docker run  -p 8080:8080 -p 50000:50000 -v jenkins_home:/var/jenkins_home  vaskatevas/jenkins 
 for kind
 
     docker run --network host -v jenkins_home:/var/jenkins_home  vaskatevas/jenkins
