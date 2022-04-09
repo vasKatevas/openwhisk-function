@@ -1,28 +1,40 @@
 ---
 - hosts: localhost
+  vars_files:
+    - required-files/cluster-info.yaml
   tasks:
-    - name: node label
+    - name: node label master
       k8s:
-        kubeconfig: '~/.kube/kind-config'
+        kubeconfig: '{{ kubeconfig }}'
         definition:
           apiversion: v1
           kind: Node
           metadata:
-            name: kind-worker
+            name: '{{ masterNode }}'
             labels: 
               openwhisk-role: core
-    - name: node label2
+    - name: node label worker1
       k8s:
-        kubeconfig: '~/.kube/kind-config'
+        kubeconfig: '{{ kubeconfig }}'
         definition:
           apiversion: v1
           kind: Node
           metadata:
-            name: kind-worker2
+            name: '{{ workerNode1 }}'
+            labels: 
+              openwhisk-role: invoker
+    - name: node label worker2
+      k8s:
+        kubeconfig: '{{ kubeconfig }}'
+        definition:
+          apiversion: v1
+          kind: Node
+          metadata:
+            name: '{{ workerNode2 }}'
             labels: 
               openwhisk-role: invoker
     - name: get apiHostName 
-      shell: "kubectl describe node kind-worker | grep InternalIP: | awk '{print $2}'"
+      shell: "kubectl describe node {{ masterNode }} | grep InternalIP: | awk '{print $2}'"
       register: apiHostName
     - name: setup mycluster.yaml
       lineinfile:
