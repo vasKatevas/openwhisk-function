@@ -6,4 +6,4 @@
       args:
         executable: /bin/bash
     - name: kubeconfig update
-      shell: "kubectl config view --flatten > required-files/kind-config.yamls"
+      shell: "kubectl config view --flatten > required-files/kind-config.yaml"
