@@ -15,8 +15,8 @@ pipeline
       stage('run ansible') {
         steps {
           sh '''cd ansible/
-            ansible-playbook cluster-setup.yml"
-            ansible-playbook openwhisk-setup.yml"'''
+            ansible-playbook cluster-setup.yml
+            ansible-playbook openwhisk-setup.yml'''
         }
       }
     }
