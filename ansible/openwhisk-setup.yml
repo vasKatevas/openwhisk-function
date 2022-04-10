@@ -1,7 +1,7 @@
 ---
 - hosts: localhost
   vars_files:
-    - /required-files/cluster-info.yaml
+    - required-files/cluster-info.yaml
   tasks:
     - name: add openwhisk repo
       kubernetes.core.helm_repository:
