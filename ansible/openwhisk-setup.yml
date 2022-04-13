@@ -17,7 +17,7 @@
         values_files: 
           - required-files/mycluster.yaml
     - name: wait owdev-install-packages
-      shell: "sleep 15m"
+      shell: "sleep 18m"
     - name: wsk credentials
       shell: "export KUBECONFIG={{ kubeconfig }}"
       shell: "wsk property set --apihost $(kubectl describe node {{ master-node }} | grep InternalIP: | awk '{print $2}'):31001"

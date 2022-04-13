@@ -12,5 +12,5 @@ project:
       license: Apache-2.0
       actions:
         feedParser:
-          function: actions/feedParser.zip
+          function: actions/hello.js
           runtime: nodejs:10

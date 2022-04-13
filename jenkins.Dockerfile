@@ -19,6 +19,7 @@ RUN wget https://github.com/apache/openwhisk-wskdeploy/releases/download/1.2.0/o
 RUN mv wskdeploy /usr/local/bin/
 RUN curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl"
 RUN install -o root -g root -m 0755 kubectl /usr/local/bin/kubectl
+RUN wget https://dlcdn.apache.org//jmeter/binaries/apache-jmeter-5.4.3.tgz && tar -zxvf apache-jmeter-5.4.3.tgz && ln -s /apache-jmeter-5.4.3/bin/jmeter /usr/local/bin/
 
 USER jenkins
 VOLUME /var/jenkins_home
