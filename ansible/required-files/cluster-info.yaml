@@ -2,4 +2,4 @@
 masterNode: kind-control-plane
 workerNode1: kind-worker
 workerNode2: kind-worker2
-kubeconfig: ~/.kube/kind-config
+kubeconfig: ~/.kube/config
