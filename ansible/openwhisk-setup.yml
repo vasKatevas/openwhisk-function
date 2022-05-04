@@ -16,8 +16,8 @@
         create_namespace: true
         values_files: 
           - required-files/mycluster.yaml
-            #    - name: wait owdev-install-packages
-      #      shell: "sleep 18m"
+    - name: wait owdev-install-packages
+      shell: "sleep 18m"
     - name: wsk credentials
       shell: "export KUBECONFIG={{ kubeconfig }}"
       shell: "wsk property set --apihost $(kubectl describe node {{ masterNode }} | grep InternalIP: | awk '{print $2}'):31001"
