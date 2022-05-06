@@ -5,7 +5,7 @@ kubectl config view --flatten > ansible/required-files/kind-config.yaml
 
 docker build -t vaskatevas/jenkins -f Dockerfile .
 docker run --network host  vaskatevas/jenkins ansible-playbook openwhisk-function/ansible/cluster-setup.yml
-#docker run --network host  vaskatevas/jenkins ansible-playbook openwhisk-function/ansible/openwhisk-setup.yml
+docker run --network host  vaskatevas/jenkins ansible-playbook openwhisk-function/ansible/openwhisk-setup.yml; loop.sh
 
 # Note 
 # remove wskdeploy from openwhisk-setup.yml
