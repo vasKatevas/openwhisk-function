@@ -27,4 +27,4 @@
       args:
         executable: /bin/bash
     - name: wait
-      shell: "./openwhisk-function/loop.sh"
+      shell: "../loop.sh"
