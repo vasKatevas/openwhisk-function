@@ -3,6 +3,8 @@ whisk:
     type: NodePort
     apiHostName: 192.168.1.27
     apiHostPort: 31001
+    limits:
+      actionsInvokesPerminute: 999
 invoker:
   containerFactory:
     impl: kubernetes
