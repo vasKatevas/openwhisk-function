@@ -5,6 +5,11 @@ whisk:
     apiHostPort: 31001
     limits:
       actionsInvokesPerminute: 999
+      actionsInvokesConcurrent: 999
+      actions:
+        log:
+          max: "5m"
+          std: "5m"
 invoker:
   containerFactory:
     impl: kubernetes
