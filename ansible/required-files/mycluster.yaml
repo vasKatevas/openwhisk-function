@@ -4,15 +4,31 @@ whisk:
     apiHostName: 192.168.1.27
     apiHostPort: 31001
     limits:
-      actionsInvokesPerminute: 999
-      actionsInvokesConcurrent: 999
+      actionsInvokesPerminute: 200
+      actionsInvokesConcurrent: 200 # Can also change with kubectl -n openwhisk  -ti exec owdev-wskadmin -- wskadmin limits set feedParser --concurrentInvocations N
       actions:
+#        memory:
+#          min: "128m"
+#          max: "512m"
+#          std: "256m"
         log:
           max: "5m"
           std: "5m"
+#  containerPool:
+#    userMemory: "2048m"
 invoker:
   containerFactory:
     impl: kubernetes
 nginx:
   httpsNodePort: '31001'
 apiHostPort : 31001,
+
+
+#memory:
+#  min
+#  /
+#containerPool:
+#  userMemory
+#  =
+#  containerCount
+#
