@@ -5,15 +5,29 @@ whisk:
     apiHostPort: 31001
   limits:
     actionsInvokesPerminute: 999
-    actionsInvokesConcurrent: 999 # Can also change with kubectl -n openwhisk  -ti exec owdev-wskadmin -- wskadmin limits set feedParser --concurrentInvocations N
+    actionsInvokesConcurrent: 999
+    triggersFiresPerminute: 60
+    actionsSequenceMaxlength: 50
     actions:
-        memory:
-          min: "512m"
-          max: "2048m"
+      time:
+        min: "100ms"
+        max: "5m"
+        std: "1m"
+      memory:
+        min: "512m"
+        max: "2048m"
         std: "1024m"
-        log:
-          max: "5m"
-          std: "5m"
+      concurrency:
+        min: 1
+        max: 1
+        std: 1
+      log:
+        min: "0m"
+        max: "5m"
+        std: "5m"
+    activation:
+      payload:
+        max: "1048576"
   containerPool:
     userMemory: "4096m"
 invoker:
