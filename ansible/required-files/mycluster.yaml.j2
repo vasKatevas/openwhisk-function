@@ -1,0 +1,48 @@
+whisk:
+  ingress:
+    type: NodePort
+    apiHostName: 192.168.1.27
+    apiHostPort: 31001
+  limits:
+    actionsInvokesPerminute: 999
+    actionsInvokesConcurrent: 999
+    triggersFiresPerminute: 60
+    actionsSequenceMaxlength: 50
+    actions:
+      time:
+        min: "100ms"
+        max: "5m"
+        std: "1m"
+      memory:
+        min: "{{minMemory}}"
+        max: "{{maxMemory}}"
+        std: "{{stdMemory}}"
+      concurrency:
+        min: 1
+        max: 1
+        std: 1
+      log:
+        min: "0m"
+        max: "5m"
+        std: "5m"
+    activation:
+      payload:
+        max: "1048576"
+  containerPool:
+    userMemory: "{{userMemory}}"
+invoker:
+  containerFactory:
+    impl: kubernetes
+nginx:
+  httpsNodePort: '31001'
+apiHostPort : 31001,
+
+
+#memory:
+#  min
+#  /
+#containerPool:
+#  userMemory
+#  =
+#  containerCount
+#

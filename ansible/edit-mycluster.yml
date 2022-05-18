@@ -1,0 +1,7 @@
+---
+- hosts: localhost
+  tasks:
+    - name: edit values
+      template:
+        src: required-files/mycluster.yaml.j2
+        dest: required-files/mycluster.yaml
