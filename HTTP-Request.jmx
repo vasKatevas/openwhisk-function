@@ -73,7 +73,7 @@
                 <assertionsResultsToSave>0</assertionsResultsToSave>
               </value>
             </objProp>
-            <stringProp name="filename">/home/billy/srcodes/repositories/openwhisk-function/result.csv</stringProp>
+            <stringProp name="filename">/home/user/openwhisk-function/result.csv</stringProp>
           </ResultCollector>
           <hashTree/>
         </hashTree>
