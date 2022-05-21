@@ -27,4 +27,4 @@
       args:
         executable: /bin/bash
     - name: wait
-      shell: "../loop.sh"
+      shell: "while [ -z \"$(wskdeploy -m ../manifest.yaml 2>/dev/null )\" ]; do sleep 3m; done"
