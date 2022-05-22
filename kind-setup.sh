@@ -22,7 +22,7 @@ ansible_commands $containerID 2048m 2
 ansible_commands $containerID 4096m 4
 ansible_commands $containerID 8192m 6
 kind delete clusters kind
-docker kill $containerID
+#docker kill $containerID
 
 
 

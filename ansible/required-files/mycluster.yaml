@@ -29,7 +29,7 @@ whisk:
       payload:
         max: "1048576"
   containerPool:
-    userMemory: "2048m"
+    userMemory: "4096m"
 invoker:
   containerFactory:
     impl: kubernetes
