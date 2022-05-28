@@ -1,6 +1,9 @@
 ---
 - hosts: localhost
   tasks:
+    - name: get apiHostName
+      shell: "kubectl describe node kind-control-plane | grep InternalIP | awk '{print $2}'"
+      register: apiHostName
     - name: edit values
       template:
         src: required-files/mycluster.yaml.j2

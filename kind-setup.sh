@@ -7,8 +7,8 @@ ansible_commands () {
   sleep 5m
   docker exec $(echo $1) jmeter -n -t openwhisk-function/HTTP-Request.jmx
   docker exec $(echo $1) /bin/bash -c " echo \"\$(cd openwhisk-function ; echo \"\$(cat result.csv | paste -sd+ | bc) / \$(wc -l result.csv | awk '{ print \$1 }')\" | bc),$3\" >> results.log"
-  #helm uninstall owdev --namespace openwhisk
-  #while [ ! "$(kubectl get pods -n openwhisk | grep Terminating | wc -l)" -eq 0 ]; do sleep 20; done
+  helm uninstall owdev --namespace openwhisk
+  while [ ! "$(kubectl get pods -n openwhisk | grep Terminating | wc -l)" -eq 0 ]; do sleep 20; done
 }
 
 
@@ -22,7 +22,7 @@ ansible_commands $containerID 2048m 2
 ansible_commands $containerID 4096m 4
 ansible_commands $containerID 8192m 6
 kind delete clusters kind
-#docker kill $containerID
+docker kill $containerID
 
 
 

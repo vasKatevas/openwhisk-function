@@ -1,7 +1,7 @@
 whisk:
   ingress:
     type: NodePort
-    apiHostName: 192.168.1.27
+    apiHostName: {{apiHostName.stdout}}
     apiHostPort: 31001
   limits:
     actionsInvokesPerminute: 999
