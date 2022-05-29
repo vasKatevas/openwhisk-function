@@ -28,3 +28,5 @@
         executable: /bin/bash 
     - name: wait for owdev-install-packages
       shell: "kubectl -n openwhisk wait --for=condition=complete job/owdev-install-packages --timeout=60m"
+    - name: deploy feedParser
+      shell: "wskdeploy -m ../manifest.yaml"

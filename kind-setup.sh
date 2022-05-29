@@ -1,7 +1,7 @@
 #!/bin/bash
 
 ansible_commands () {
-  ansible-playbook ansible/edit-mycluster.yml --extra-vars "minMemory=512 maxMemory=2048 stdMemory=1024 userMemory=$2"
+  ansible-playbook ansible/edit-mycluster.yml --extra-vars "minMemory=512m maxMemory=2048m stdMemory=1024m userMemory=$2"
   docker exec $(echo $1) ansible-playbook openwhisk-function/ansible/cluster-setup.yml
   docker exec $(echo $1) ansible-playbook openwhisk-function/ansible/openwhisk-setup.yml
   sleep 5m
@@ -22,7 +22,7 @@ ansible_commands $containerID 2048m 2
 ansible_commands $containerID 4096m 4
 ansible_commands $containerID 8192m 6
 kind delete clusters kind
-docker kill $containerID
+#docker kill $containerID
 
 
 

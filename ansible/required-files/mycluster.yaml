@@ -1,7 +1,7 @@
 whisk:
   ingress:
     type: NodePort
-    apiHostName: 172.21.0.4
+    apiHostName: 172.21.0.2
     apiHostPort: 31001
   limits:
     actionsInvokesPerminute: 999
@@ -14,9 +14,9 @@ whisk:
         max: "5m"
         std: "1m"
       memory:
-        min: "512"
-        max: "2048"
-        std: "1024"
+        min: "512m"
+        max: "2048m"
+        std: "1024m"
       concurrency:
         min: 1
         max: 1
