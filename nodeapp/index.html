@@ -1,0 +1,44 @@
+<!doctype html>
+<html>
+
+  <head>
+    <meta charset="UTF-8">
+    <title>script triggering...</title>
+  </head>
+
+  <body>
+    <div id="logs">
+    </div>
+  </body>
+  
+  
+  <script src="/socket.io/socket.io.js"></script>
+    <script>
+        var socket = io();
+        var messages = document.getElementById('logs');
+
+        socket.on('logs', function(msg) {
+          var item = document.createElement('p');
+          console.log(msg.data);
+          const logs = document.createTextNode(msg.data);
+          item.appendChild(logs);
+          messages.appendChild(item);
+        });
+
+        socket.on('errorLogs', function(msg) {
+          var item = document.createElement('p');
+          console.log(msg.data);
+          const logs = document.createTextNode(msg.data);
+          item.appendChild(logs);
+          item.setAttribute('style','color: red;');
+          messages.appendChild(item);
+        });
+    </script>
+</html>
+
+<!--
+    var socket = io();
+    socket.on('logs',function(data){
+      $('#logs').html(data);
+    });
+-->

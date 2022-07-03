@@ -1,0 +1,6 @@
+.gitignore
+.dockerignore
+README.md
+Dockerfile
+jmeter.log
+nodeapp/node_modules

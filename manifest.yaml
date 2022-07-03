@@ -7,10 +7,17 @@
 project:
   namespace: guest
   packages:
-    feedParser:
+    performance-tester:
       version: 1.0
       license: Apache-2.0
       actions:
-        feedParser:
+        sleep:
           function: actions/hello.js
           runtime: nodejs:10
+          web: true
+          limits:
+            memorySize: 2048
+        loadgen:
+          docker: gkousiou/physicspef_loadgenclient
+          limits:
+            timeout: 300000

@@ -33,19 +33,3 @@
             name: '{{ workerNode2 }}'
             labels: 
               openwhisk-role: invoker
-    - name: get apiHostName 
-      shell: "kubectl describe node {{ masterNode }} | grep InternalIP: | awk '{print $2}'"
-      register: apiHostName
-    - name: setup mycluster.yaml
-      lineinfile:
-        dest: "required-files/mycluster.yaml"
-        regex: "^apiHostName :"
-        line: "apiHostName : {{ apiHostName}},"
-        state: present
-      lineinfile:
-        dest: "required-files/mycluster.yaml"
-        regex: "^apiHostPort :"
-        line: "apiHostPort : 31001,"
-        state: present
-        
-        

@@ -1,28 +1,12 @@
 #!/bin/bash
-
-ansible_commands () {
-  ansible-playbook ansible/edit-mycluster.yml --extra-vars "minMemory=512m maxMemory=2048m stdMemory=1024m userMemory=$2"
-  docker exec $(echo $1) ansible-playbook openwhisk-function/ansible/cluster-setup.yml
-  docker exec $(echo $1) ansible-playbook openwhisk-function/ansible/openwhisk-setup.yml
-  sleep 5m
-  docker exec $(echo $1) jmeter -n -t openwhisk-function/HTTP-Request.jmx
-  docker exec $(echo $1) /bin/bash -c " echo \"\$(cd openwhisk-function ; echo \"\$(cat result.csv | paste -sd+ | bc) / \$(wc -l result.csv | awk '{ print \$1 }')\" | bc),$3\" >> results.log"
-  helm uninstall owdev --namespace openwhisk
-  while [ ! "$(kubectl get pods -n openwhisk | grep Terminating | wc -l)" -eq 0 ]; do sleep 20; done
-}
-
-
-
+cd $(dirname $0) && pwd
 kind create cluster --config ansible/required-files/kind-cluster.yaml
 kubectl config view --flatten > ansible/required-files/kind-config.yaml
-docker build -t vaskatevas/jenkins -f Dockerfile .
-docker run -d  --network host  vaskatevas/jenkins ping 127.0.0.1
-containerID=$(docker ps | grep vaskatevas/jenkins | awk '{print $1}')
-ansible_commands $containerID 2048m 2
-ansible_commands $containerID 4096m 4
-ansible_commands $containerID 8192m 6
-kind delete clusters kind
-#docker kill $containerID
+docker build -t vaskatevas/controller-api -f Dockerfile .
+docker run --network host -d vaskatevas/controller-api
+containerID=$(docker ps | grep vaskatevas/controller-api | awk '{print $1}')
+docker exec $containerID ansible-playbook ansible/cluster-setup.yml
+docker exec $containerID ansible-playbook ansible/openwhisk-setup.yml
 
 
 

@@ -26,7 +26,7 @@
       shell: "wsk property set --auth 23bc46b1-71f6-4ed5-8c54-816aa4f8c502:123zO3xZCLrMN6v2BKK1dXYFpXlPkccOFqm12CdAsMgRU4VrNZ9lyGVCGuMDGIwP"
       args:
         executable: /bin/bash 
-    - name: wait for owdev-install-packages
-      shell: "kubectl -n openwhisk wait --for=condition=complete job/owdev-install-packages --timeout=60m"
     - name: deploy feedParser
-      shell: "wskdeploy -m ../manifest.yaml"
+      shell: "while [ -z \"$(wskdeploy -m /home/user/manifest.yaml 2>/dev/null )\" ]; do sleep 3m; done"
+      args:
+        executable: /bin/bash 

@@ -1,5 +1,6 @@
 pkg load statistics
 load results.csv
-x = results(1:3)'
-y = results(1:3,2)
+y = results(:, 1)
+x = results(:, 2)
 [B, BINT, R, RINT, STATS] = regress (y, x)
+Y = BINT(1) + BINT(2)*x

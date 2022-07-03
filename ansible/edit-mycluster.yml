@@ -1,8 +1,10 @@
 ---
 - hosts: localhost
+  vars_files:
+    - required-files/cluster-info.yaml
   tasks:
     - name: get apiHostName
-      shell: "kubectl describe node kind-control-plane | grep InternalIP | awk '{print $2}'"
+      shell: "kubectl describe node {{ masterNode }} | grep InternalIP | awk '{print $2}'"
       register: apiHostName
     - name: edit values
       template:

@@ -7,12 +7,12 @@ WORKDIR /home/user
 
 USER root
 # Install requirments apt & pip
-RUN apt-get update && apt-get install -y tar wget git curl python3-pip python3 iputils-ping bc default-jdk
+RUN apt-get update && apt-get install -y tar wget git curl python3-pip python3 iputils-ping bc default-jdk octave-control octave-image octave-io octave-optim octave-signal octave-statistics npm
 RUN pip3 install ansible
 RUN pip3 install kubernetes
 RUN apt-get install -y vim
 RUN echo "JAVA_HOME=\"/usr/lib/jvm/java-11-openjdk-amd64\"" >> /etc/environment
-
+RUN npm install -g npm@8.13.2
 USER user
 ## ansible playbooks 
 RUN ansible-galaxy collection install kubernetes.core 
@@ -27,10 +27,19 @@ RUN curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/s
 RUN install -o root -g root -m 0755 kubectl /usr/local/bin/kubectl
 RUN wget https://dlcdn.apache.org//jmeter/binaries/apache-jmeter-5.4.3.tgz && tar -zxvf apache-jmeter-5.4.3.tgz && ln -sr apache-jmeter-5.4.3/bin/jmeter /usr/local/bin/
 
-# Copy kind-config ( every time kind runs it makes a new one ) 
+
+
+RUN curl -fsSL https://deb.nodesource.com/setup_current.x | bash -
+RUN apt-get install -y nodejs
+
+
+COPY ./ /home/user/
 COPY ./ansible/required-files/kind-config.yaml /home/user/.kube/config
+RUN cd nodeapp/ && npm install
+RUN chown -R user:user /home/user/nodeapp && chown -R user:user /home/user/ansible && chown -R user:user /home/user/.kube/config
+RUN chown user:user test-jmeter.sh
+RUN chmod a+x test-jmeter.sh
 USER user
 
-RUN git clone https://github.com/vasKatevas/openwhisk-function.git
-
-CMD ["bash"]
+RUN cd /home/user/nodeapp && npm install
+CMD ["/bin/bash","-c","node nodeapp/index.js"]

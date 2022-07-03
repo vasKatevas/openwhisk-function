@@ -1,4 +1,5 @@
 ansible/required-files/kind-config.yaml
 ansible/required-files/vagrant-config.yaml
+nodeapp/node_modules
 jmeter.log
 result.csv
