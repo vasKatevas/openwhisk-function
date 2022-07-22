@@ -1,6 +1,6 @@
 #!/bin/bash
 
-curl -k --location --request POST 'https://127.0.0.1:31001/api/v1/namespaces/guest/actions/performance-tester/loadgen' \
+curl -s -k --location --request POST 'https://127.0.0.1:31001/api/v1/namespaces/guest/actions/performance-tester/loadgen' \
        --header 'Content-Type: application/json' \
        --header 'Authorization: Basic MjNiYzQ2YjEtNzFmNi00ZWQ1LThjNTQtODE2YWE0ZjhjNTAyOjEyM3pPM3haQ0xyTU42djJCS0sxZFhZRnBYbFBrY2NPRnFtMTJDZEFzTWdSVTRWck5aOWx5R1ZDR3VNREdJd1A=' \
        --data-raw "{

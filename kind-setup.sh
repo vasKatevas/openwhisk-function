@@ -8,7 +8,7 @@ containerID=$(docker ps | grep vaskatevas/controller-api | awk '{print $1}')
 docker exec $containerID ansible-playbook ansible/cluster-setup.yml
 docker exec $containerID ansible-playbook ansible/openwhisk-setup.yml
 
-
+#./test-loadgen.sh memorySize=512 minMemory=512m maxMemory=8192m userMemory=8192m
 
 
 

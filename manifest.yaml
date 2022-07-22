@@ -16,7 +16,7 @@ project:
           runtime: nodejs:10
           web: true
           limits:
-            memorySize: 2048
+            memorySize: 512
         loadgen:
           docker: gkousiou/physicspef_loadgenclient
           limits:

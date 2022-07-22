@@ -1,5 +1,9 @@
 ---
 - hosts: localhost
+  vars:
+    minMemory: "512m"
+    maxMemory: "2048m"
+    userMemory: "1024m"
   vars_files:
     - required-files/cluster-info.yaml
   tasks:
