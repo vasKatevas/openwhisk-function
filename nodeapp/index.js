@@ -4,7 +4,7 @@ const http = require('http');
 const server = http.createServer(app);
 const { Server } = require("socket.io");
 const io = new Server(server);
-const { spawnSync } = require("child_process");
+const { spawnSync,spawn } = require("child_process");
 const CSVToJSON = require('csvtojson');
 const path = require('path');
 const fs = require('fs');
@@ -24,6 +24,33 @@ app.get('/', (req, res) => {
 
 function format (req){
   var response= [];
+  if (req.body.delay != undefined){
+    if (typeof req.body.delay === 'object'){
+      response.push({
+          varName: "delay",
+          length: req.body.delay.length,
+          value: req.body.delay
+        });
+    } else response.push({varName: "delay", "value": req.body.delay});
+  }
+  if (req.body.maxConcurrency != undefined){
+    if (typeof req.body.maxConcurrency === 'object'){
+      response.push({
+          varName: "maxConcurrency",
+          length: req.body.maxConcurrency.length,
+          value: req.body.maxConcurrency
+        });
+    } else response.push({varName: "maxConcurrency", "value": req.body.maxConcurrency});
+  }
+  if (req.body.stdConcurrency != undefined){
+    if (typeof req.body.stdConcurrency === 'object'){
+      response.push({
+          varName: "stdConcurrency",
+          length: req.body.stdConcurrency.length,
+          value: req.body.stdConcurrency
+        });
+    } else response.push({varName: "stdConcurrency", "value": req.body.stdConcurrency});
+  }
   if (req.body.memorySize != undefined){
     if (typeof req.body.memorySize === 'object'){
       response.push({
@@ -93,10 +120,16 @@ function spawnArgs (input,inputLength,detachedV){
   }
 }
 
+app.get('/json', (req, res) => {
+  const formatted = format(req);
+  res.send(formatted);
+});
+
 app.get('/no-sockets', (req, res) => {
 
   const formatted = format(req);
   spawnArgs(formatted,formatted.length,false)
+  const octave = spawnSync('/home/user/octave-exec.sh',{detached:false});
   var results=[];
   const directoryPath = path.join(__dirname, '../octave-results');
   fs.readdir(directoryPath, async function (err, files) {
@@ -124,6 +157,7 @@ app.get('/no-sockets', (req, res) => {
 
 app.get('/results', (req, res) => {
   //https://medium.com/stackfame/get-list-of-all-files-in-a-directory-in-node-js-befd31677ec5
+  const octave = spawnSync('/home/user/octave-exec.sh',{detached:false});
   var results=[];
   const directoryPath = path.join(__dirname, '../octave-results');
   fs.readdir(directoryPath, async function (err, files) {

@@ -21,3 +21,8 @@ project:
           docker: gkousiou/physicspef_loadgenclient
           limits:
             timeout: 300000
+        octave:
+          docker: gkousiou/octavefunction2
+          web: true
+          limits:
+            timeout: 300000

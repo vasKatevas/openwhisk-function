@@ -35,13 +35,14 @@ COPY ./ /home/user/
 COPY ./ansible/required-files/kind-config.yaml /home/user/.kube/config
 RUN cd nodeapp/ && npm install
 RUN chown -R user:user /home/user/nodeapp && chown -R user:user /home/user/ansible && chown -R user:user /home/user/.kube/config
-RUN chown user:user test-jmeter.sh
-RUN chmod a+x test-jmeter.sh
+RUN chown user:user test-loadgen.sh && chown user:user octave-exec.sh
 RUN chmod a+x test-loadgen.sh
-RUN chmod a+x ./load-gen-call.sh
+RUN chmod a+x octave-exec.sh
+RUN chmod a+x load-gen-call.sh
 USER user
 
-RUN echo "memorySize,userMemory,minMemory,maxMemory,averageWaitTime,averageUserSideDelay,averageStartLatency,averageInitTime,averageDuration,achievedAverageRate,stdDevDuration,stdDevInitTime,stdDevStartLatency,stdDevUserSideDelay,stdDevWaitTime,successPercentage,coldStarts" >> results.csv
+RUN echo "delay,stdConcurrency,memorySize,userMemory,averageWaitTime,averageUserSideDelay,averageStartLatency,averageInitTime,averageDuration,achievedAverageRate,stdDevDuration,stdDevInitTime,stdDevStartLatency,stdDevUserSideDelay,stdDevWaitTime,successPercentage,coldStarts" >> results.csv
+RUN mkdir octave-results
 
 RUN cd /home/user/nodeapp && npm install
 CMD ["/bin/bash","-c","node nodeapp/index.js"]

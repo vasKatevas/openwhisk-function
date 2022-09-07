@@ -19,8 +19,8 @@ whisk:
         std: "1024m"
       concurrency:
         min: 1
-        max: 1
-        std: 1
+        max: 10
+        std: 10
       log:
         min: "0m"
         max: "5m"
