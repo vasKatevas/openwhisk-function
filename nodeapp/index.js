@@ -24,6 +24,10 @@ app.get('/', (req, res) => {
 
 function format (req){
   var response= [];
+  
+  if (req.body.testId != undefined){
+    response.push({varName: "testId", "value": req.body.testId});
+  }
   if (req.body.delay != undefined){
     if (typeof req.body.delay === 'object'){
       response.push({
@@ -125,60 +129,70 @@ app.get('/json', (req, res) => {
   res.send(formatted);
 });
 
-app.get('/no-sockets', (req, res) => {
+app.get('/no-sockets', async (req, res) => {
 
+  const testId = req.body.testId;
   const formatted = format(req);
-  spawnArgs(formatted,formatted.length,false)
-  const octave = spawnSync('/home/user/octave-exec.sh',{detached:false});
-  var results=[];
-  const directoryPath = path.join(__dirname, '../octave-results');
-  fs.readdir(directoryPath, async function (err, files) {
-    if (err) {
-      return console.log('Unable to scan directory: ' + err);
-    } 
-    for (const file in files) {
-      const fn = files[file];
-       await CSVToJSON().fromFile(directoryPath+"/"+fn)
-        .then(values => {
-          results.push({
-            dataPair:fn.slice(0,fn.length-4),
-            value:values
-          });
-          console.log(results);
-        }).catch(err => {
-          console.log(err);
-        });
-    };
-    res.send(results);
+  fs.writeFileSync(path.join(__dirname,'../results'+testId+'.csv'), 
+    'delay,stdConcurrency,memorySize,userMemory,averageWaitTime,averageUserSideDelay,averageStartLatency,averageInitTime,averageDuration,achievedAverageRate,stdDevDuration,stdDevInitTime,stdDevStartLatency,stdDevUserSideDelay,stdDevWaitTime,successPercentage,coldStarts',
+    function (err) {
+      if (err) throw err;
+      console.log('File is created successfully.');
   });
+  spawnArgs(formatted,formatted.length,false)
 
+  const octave = spawnSync(path.join(__dirname,'../octave-commands.sh'),[testId],{shell:'/bin/bash'});
+  
+  var results=[];
+  await CSVToJSON().fromFile(path.join(__dirname,'../octave-results'+testId,'functions.csv'))
+    .then(values => {
+      results.push({
+        dataPair:"functions",
+        value:values
+      });
+    }).catch(err => {
+      console.log(err);
+    });
+  await CSVToJSON().fromFile(path.join(__dirname,'../','results'+testId+'.csv'))
+    .then(values => {
+      results.push({
+        dataPair:"data",
+        value:values
+      });
+    }).catch(err => {
+      console.log(err);
+    });
+    res.send(results);
 });
 
 
-app.get('/results', (req, res) => {
+app.get('/results', async (req, res) => {
   //https://medium.com/stackfame/get-list-of-all-files-in-a-directory-in-node-js-befd31677ec5
-  const octave = spawnSync('/home/user/octave-exec.sh',{detached:false});
+  const formatted = format(req);
+
+  var testId = req.body.testId;
+  const octave = spawnSync(path.join(__dirname,'../octave-commands.sh'),[testId],{shell:'/bin/bash'});
+
   var results=[];
-  const directoryPath = path.join(__dirname, '../octave-results');
-  fs.readdir(directoryPath, async function (err, files) {
-    if (err) {
-      return console.log('Unable to scan directory: ' + err);
-    } 
-    for (const file in files) {
-      const fn = files[file];
-       await CSVToJSON().fromFile(directoryPath+"/"+fn)
-        .then(values => {
-          results.push({
-            dataPair:fn.slice(0,fn.length-4),
-            value:values
-          });
-          console.log(results);
-        }).catch(err => {
-          console.log(err);
-        });
-    };
+  await CSVToJSON().fromFile(path.join(__dirname,'../octave-results'+testId,'functions.csv'))
+    .then(values => {
+      results.push({
+        dataPair:"functions",
+        value:values
+      });
+    }).catch(err => {
+      console.log(err);
+    });
+  await CSVToJSON().fromFile(path.join(__dirname,'../','results'+testId+'.csv'))
+    .then(values => {
+      results.push({
+        dataPair:"data",
+        value:values
+      });
+    }).catch(err => {
+      console.log(err);
+    });
     res.send(results);
-  });
 });
 
 io.on('connection', async (socket) => {

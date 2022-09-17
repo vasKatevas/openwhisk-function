@@ -38,7 +38,7 @@ write_logs_to_file () {
   successPercentage=$(    wsk -i activation get $activationId | grep successPercentage    | head -n 1 | awk -F ":" '{print $2}' |  sed -e 's/,//g')
   coldStarts=$(           wsk -i activation get $activationId | grep coldStarts           | head -n 1 | awk -F ":" '{print $2}' |  sed -e 's/,//g')
 
-  echo "$delay,$stdConcurrency,$memorySize,$(echo $userMemory | sed -e 's/m//g'),$averageWaitTime,$averageUserSideDelay,$averageStartLatency,$averageInitTime,$averageDuration,$achievedAverageRate,$stdDevDuration,$stdDevInitTime,$stdDevStartLatency,$stdDevUserSideDelay,$stdDevWaitTime,$successPercentage,$coldStarts" >> results.csv
+  echo "$delay,$stdConcurrency,$memorySize,$(echo $userMemory | sed -e 's/m//g'),$averageWaitTime,$averageUserSideDelay,$averageStartLatency,$averageInitTime,$averageDuration,$achievedAverageRate,$stdDevDuration,$stdDevInitTime,$stdDevStartLatency,$stdDevUserSideDelay,$stdDevWaitTime,$successPercentage,$coldStarts" >> results$testId.csv
 }
 
 cd $(dirname $0) && pwd
@@ -54,6 +54,7 @@ activationId=""
 maxConcurrency=""
 stdConcurrency=""
 delay=""
+testId=""
 
 for i in $@
 do
@@ -86,6 +87,9 @@ do
   then
     stdConcurrency=$varData
     ansibleExtraVars="$ansibleExtraVars $i"
+  elif [[ $varName = testId ]]
+  then
+    testId=$varData
   fi
 done
 
