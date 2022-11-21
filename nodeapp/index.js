@@ -134,7 +134,7 @@ app.get('/no-sockets', async (req, res) => {
   const testId = req.body.testId;
   const formatted = format(req);
   fs.writeFileSync(path.join(__dirname,'../results'+testId+'.csv'), 
-    'delay,stdConcurrency,memorySize,userMemory,averageWaitTime,averageUserSideDelay,averageStartLatency,averageInitTime,averageDuration,achievedAverageRate,stdDevDuration,stdDevInitTime,stdDevStartLatency,stdDevUserSideDelay,stdDevWaitTime,successPercentage,coldStarts',
+    'delay,stdConcurrency,memorySize,userMemory,averageWaitTime,averageUserSideDelay,averageStartLatency,averageInitTime,averageDuration,achievedAverageRate,stdDevDuration,stdDevInitTime,stdDevStartLatency,stdDevUserSideDelay,stdDevWaitTime,successPercentage,coldStarts\n',
     function (err) {
       if (err) throw err;
       console.log('File is created successfully.');

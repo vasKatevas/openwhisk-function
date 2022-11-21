@@ -35,9 +35,8 @@ COPY ./ /home/user/
 COPY ./ansible/required-files/kind-config.yaml /home/user/.kube/config
 RUN cd nodeapp/ && npm install
 RUN chown -R user:user /home/user/nodeapp && chown -R user:user /home/user/ansible && chown -R user:user /home/user/.kube/config &&  chown -R user:user /home/user/
-RUN chown user:user test-loadgen.sh && chown user:user octave-exec.sh
+RUN chown user:user test-loadgen.sh
 RUN chmod a+x test-loadgen.sh
-RUN chmod a+x octave-exec.sh
 RUN chmod a+x load-gen-call.sh
 USER user
 
