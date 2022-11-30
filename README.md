@@ -2,7 +2,7 @@
 
 
 ## Introduction
-This repository [1] includes a set of resources through which the user can automate the creation and execution of benchmark tests against an K8s-based Openwhisk installation. To this end, a number of scripts are provided:
+This repository includes a set of resources through which the user can automate the creation and execution of benchmark tests against an K8s-based Openwhisk installation. To this end, a number of scripts are provided:
 * to install all the needed dependencies (e.g. kind, docker etc.) through the install_requirements.sh script 
 * to create the Kubernetes cluster through the kind_setup.sh script
 * to launch a node.js API server that can be used to launch through a respective REST call an experiment description including:
@@ -13,9 +13,6 @@ This repository [1] includes a set of resources through which the user can autom
 
 
 Thus the specific functionality can be used to automate entire series of measurements, thus being able to collect easily a performance dataset. The latter can then be used to create simpler or more complex performance models, e.g. based on regression techniques or function approximation ones, including the use of AI or machine learning methods, in order to detect proactively how differences in configuration could enhance the performance of the Openwhisk cluster.
-
-
-[1] https://github.com/vasKatevas/openwhisk-function
   
 ![Enviroment Diagram](/images/enviroment.png "Enviroment Diagram")
   
